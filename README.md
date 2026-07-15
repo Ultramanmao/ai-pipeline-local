@@ -42,7 +42,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 |:---|:---:|:---|:---:|
 | **v1.0** | 2026-07-14 | [Flux GGUF + Qwen-Image on 8GB RTX 5060: Real Results, Real Pitfalls](docs/releases/v1.0_Flux-GGUF-Qwen-Image-on-8GB-RTX-5060.md) | Full write-up |
 | v2.0 | 2026-07-14 | [Flux.1-dev GGUF: The Realism LoRA Makes or Breaks It](docs/releases/v2.0_Flux-GGUF-Realism-LoRA-Comparison.md) | Full write-up |
-| v3.0 | *coming soon* | Z-Image Turbo FP8 — 1312×1312 4-step generation + DiffSynth namespace pitfall | Planned |
+| v3.0 | 2026-07-15 | [Z-Image Turbo on 8 GB: From Double Segfault to a 14-Second Image](docs/releases/v3.0_Z-Image-Turbo-8GB-RTX-5060-14s-4steps.md) | Full write-up |
 | v4.0 | *coming soon* | LTX-2B I2V — 8 GB optimal config + keyframe locking + 3-segment relay | Planned |
 
 ---
@@ -101,8 +101,8 @@ E:/WSL/ComfyUI/models/
 | Stage | Target | What |
 |:---|:---|:---|
 | ~~v2.0 — Flux LoRA comparison~~ | ✅ Done |
-| **This week** | v3.0 | Z-Image Turbo — 4-step vs 20-step + DiffSynth namespace pitfall |
-| **Next** | v4.0 | LTX-2B I2V — 8GB config + keyframe locking + STG/StatNorm pitfall |
+| ~~v3.0 — Z-Image Turbo~~ | ✅ Done |
+| This week | v4.0 | LTX-2B I2V — 8GB config + keyframe locking + STG/StatNorm pitfall |
 | **2 weeks** | Pages | `Ultramanmao.github.io` — aggregated blog homepage |
 
 ---
