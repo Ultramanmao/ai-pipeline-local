@@ -25,7 +25,7 @@
 | Qwen-Image (full 17B) | ✅ Running | Best open-source Chinese text rendering (12 GB+ GPU) | [v1.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
 | Qwen-Image Q3_K_S GGUF | ✅ Running | Chinese text rendering on 8 GB (~5.4 GB VRAM) | [v1.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
 | Z-Image Turbo FP8 | ✅ Running | High-res, fast 4-step generation | — |
-| LTX-2B I2V | ✅ Running | Text-to-video with keyframe locking | — |
+| LTX-2B I2V | ✅ Running | Text-to-video with keyframe locking | [v4.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v4.0) |
 | Flux.2 Klein 4B FP8 | ✅ Running | Newer architecture, 8-step | — |
 | Wan2GP | 🟢 Installed | Video generation Web GUI (Sage2 RTX50xx) | — |
 | SadTalker | ✅ Running | Talking-head / digital human (8 GB) | — |
@@ -43,7 +43,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v1.0** | 2026-07-14 | [Flux GGUF + Qwen-Image on 8GB RTX 5060: Real Results, Real Pitfalls](docs/releases/v1.0_Flux-GGUF-Qwen-Image-on-8GB-RTX-5060.md) | Full write-up |
 | v2.0 | 2026-07-14 | [Flux.1-dev GGUF: The Realism LoRA Makes or Breaks It](docs/releases/v2.0_Flux-GGUF-Realism-LoRA-Comparison.md) | Full write-up |
 | v3.0 | 2026-07-15 | [Z-Image Turbo on 8 GB: From Double Segfault to a 14-Second Image](docs/releases/v3.0_Z-Image-Turbo-8GB-RTX-5060-14s-4steps.md) | Full write-up |
-| v4.0 | *coming soon* | LTX-2B I2V — 8 GB optimal config + keyframe locking + 3-segment relay | Planned |
+| v4.0 | 2026-07-15 | [LTX-2B I2V on 8 GB: From Broken CLIP to a 6-Second 3-Segment Relay](docs/releases/v4.0_LTX-2B-I2V-8GB-RTX-5060-3-segment-relay.md) | Full write-up |
 
 ---
 
