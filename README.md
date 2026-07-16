@@ -44,6 +44,8 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | v2.0 | 2026-07-14 | [Flux.1-dev GGUF: The Realism LoRA Makes or Breaks It](docs/releases/v2.0_Flux-GGUF-Realism-LoRA-Comparison.md) | Full write-up |
 | v3.0 | 2026-07-15 | [Z-Image Turbo on 8 GB: From Double Segfault to a 14-Second Image](docs/releases/v3.0_Z-Image-Turbo-8GB-RTX-5060-14s-4steps.md) | Full write-up |
 | v4.0 | 2026-07-15 | [LTX-2B I2V on 8 GB: From Broken CLIP to a 6-Second 3-Segment Relay](docs/releases/v4.0_LTX-2B-I2V-8GB-RTX-5060-3-segment-relay.md) | Full write-up |
+| v5.0 | 2026-07-16 | [Qwen-Image on 8 GB: The 3584 vs 2560 Trap](docs/releases/v5.0_Qwen-Image-8GB-GGUF-Chinese-Text-3584-vs-2560.md) | Full write-up |
+| v6.0 | 2026-07-16 | [Flux.2 Klein 4B on 8 GB: The VAE That Shouldn't Work](docs/releases/v6.0_Flux2-Klein-4B-8GB-128-Channel-VAE-Trap.md) | Full write-up |
 
 ---
 
