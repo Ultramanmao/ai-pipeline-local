@@ -49,6 +49,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 || v7.0 | 2026-07-17 | [Krea 2 on 8 GB: The Misnamed File That Cost Me a Day](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v7.0) | Full write-up |
 || v8.0 | 2026-07-17 | [SadTalker on 8 GB: Four Python-3.13 Pitfalls That Killed a Talking Head](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v8.0) | Full write-up |
 || **v9.0** | 2026-07-18 | [Wan2GP on 8 GB: The VRAM Digger That Saved My 5060](docs/releases/v9.0_Wan2GP-8GB-RTX-5060-VRAM-Digger.md) | Full write-up |
+|| **v10.0** | 2026-07-19 | [OpenMontage on 8 GB: The Orchestrator That Finally Made My Pipeline a Product](docs/releases/v10.0_OpenMontage-8GB-Remotion-LTX2B-Orchestrator.md) | Full write-up |
 
 ---
 
