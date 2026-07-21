@@ -49,7 +49,10 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 || v7.0 | 2026-07-17 | [Krea 2 on 8 GB: The Misnamed File That Cost Me a Day](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v7.0) | Full write-up |
 || v8.0 | 2026-07-17 | [SadTalker on 8 GB: Four Python-3.13 Pitfalls That Killed a Talking Head](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v8.0) | Full write-up |
 || **v9.0** | 2026-07-18 | [Wan2GP on 8 GB: The VRAM Digger That Saved My 5060](docs/releases/v9.0_Wan2GP-8GB-RTX-5060-VRAM-Digger.md) | Full write-up |
-|| **v10.0** | 2026-07-19 | [OpenMontage on 8 GB: The Orchestrator That Finally Made My Pipeline a Product](docs/releases/v10.0_OpenMontage-8GB-Remotion-LTX2B-Orchestrator.md) | Full write-up |
+||| **v10.0** | 2026-07-19 | [OpenMontage on 8 GB: The Orchestrator That Finally Made My Pipeline a Product](docs/releases/v10.0_OpenMontage-8GB-Remotion-LTX2B-Orchestrator.md) | Full write-up |
+||| **v11.0** | 2026-07-19 | [8 GB Pipeline Benchmark: Eleven Models, One GPU](docs/releases/v11.0_8GB-Pipeline-Benchmark-Eleven-Models-One-GPU.md) | Full write-up |
+||| **v12.0** | 2026-07-20 | [Wan2.2 on 8 GB: Five Fixes to Unstick an sm_120 GPU](docs/releases/v12.0_Wan2.2-on-8GB-Five-Fixes-to-Unstick-sm120.md) | Full write-up |
+||| **v13.0** | 2026-07-20 | [Z-Image Turbo on 8 GB: Is 4 Steps Enough?](docs/releases/v13.0_Z-Image-Turbo-4-vs-20-Steps-Comparison.md) | Full write-up |
 
 ---
 
