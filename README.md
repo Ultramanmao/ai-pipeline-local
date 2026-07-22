@@ -53,6 +53,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 ||| **v11.0** | 2026-07-19 | [8 GB Pipeline Benchmark: Eleven Models, One GPU](docs/releases/v11.0_8GB-Pipeline-Benchmark-Eleven-Models-One-GPU.md) | Full write-up |
 ||| **v12.0** | 2026-07-20 | [Wan2.2 on 8 GB: Five Fixes to Unstick an sm_120 GPU](docs/releases/v12.0_Wan2.2-on-8GB-Five-Fixes-to-Unstick-sm120.md) | Full write-up |
 ||| **v13.0** | 2026-07-20 | [Z-Image Turbo on 8 GB: Is 4 Steps Enough?](docs/releases/v13.0_Z-Image-Turbo-4-vs-20-Steps-Comparison.md) | Full write-up |
+||| **v14.0** | 2026-07-22 | [8 GB Local LLM Benchmark: Five Models, Six Tests, One Question](docs/releases/v14.0_8GB-Local-LLM-Benchmark-Five-Models-Six-Tests.md) | Full write-up |
 
 ---
 
