@@ -28,7 +28,8 @@
 | LTX-2B I2V | ✅ Running | Text-to-video with keyframe locking | [v4.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v4.0) |
 | Flux.2 Klein 4B FP8 | ✅ Running | Newer architecture, 8-step | — |
 | Wan2GP | 🟢 Installed | Video generation Web GUI (Sage2 RTX50xx) | — |
-| SadTalker | ✅ Running | Talking-head / digital human (8 GB) | — |
+|| SadTalker | ✅ Running | Talking-head / digital human (8 GB) | — |
+|| **Local LLMs (llama.cpp)** | ✅ Benchmarkable | LLM reasoning benchmark · 5 models, 6 tests | [v14.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v14.0) |
 
 </div>
 
