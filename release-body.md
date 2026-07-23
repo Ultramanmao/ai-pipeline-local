@@ -1,211 +1,149 @@
-# SadTalker on 8 GB: Four Python-3.13 Pitfalls That Killed a Talking Head
+# Bonsai-27B on 8 GB: How I Fit a 27B LLM on an RTX 5060 Laptop
 
-> Date: 2026-07-17 · GPU: RTX 5060 Laptop 8GB · CUDA: cu132 · Framework: SadTalker + DiffSynth · OS: Windows 11 native
-> Release: https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v8.0
+> Date: 2026-07-24 · GPU: RTX 5060 Laptop 8GB (sm_120, Blackwell) · CUDA: 13.3.73 · Framework: prismml-llama-cpp · OS: Windows 11 native
+> Release: https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v15.0
 
 ## TL;DR
 
-SadTalker produces talking-head videos from a single image and an audio file. On paper it's straightforward: feed it a face, feed it speech, get a lip-synced video. On practice, it's a minefield of Python-3.13 compatibility bugs.
+A 27B-parameter language model on an 8 GB laptop GPU. On paper this should not exist — the unquantized model weighs ~50 GB. The answer is extreme quantization: squeeze 27B down to 3.6 GB (Q1_0, 1-bit ternary quantization) and compile llama.cpp with custom Blackwell kernels.
 
-Getting it running on an 8 GB RTX 5060 under Windows 11 native required fixing four failures that SadTalker's dependency chain silently introduces:
+| Mode | Prompt | Generation |
+|------|--------|-----------|
+| CPU-only | 8.2 t/s | 7.6 t/s |
+| GPU (Blackwell) | **108.3 t/s** | **34.5 t/s** |
+| GPU speedup | 13.2× | 4.5× |
 
-1. **`basicsr` won't build on Python 3.13** — `__version__` KeyError, no prebuilt wheel.
-2. **`np.VisibleDeprecationWarning` was removed in numpy 2.x** — SadTalker's `preprocess.py` crashes at startup.
-3. **`torchvision.transforms.functional_tensor` was removed** — `basicsr`'s `degradations.py` module missing.
-4. **`float(t[0])` no longer works on torch tensors** — `numpy.ndarray.item()` conversion required.
-
-This article documents all four fixes, the minimal patch set that gets SadTalker importing cleanly, the working parameter combination for natural expression, and why the face enhancer (GFPGAN) must be made optional.
-
----
-
-## What Is SadTalker
-
-SadTalker is a talking-head generation model that animates a static portrait with lip-sync to arbitrary speech audio. It works in two stages:
-
-1. **3D face reconstruction** — `face3d` module extracts a 3DMM facial mesh from the source image
-2. **Lip-sync animation** — the mesh is animated to match phoneme timing from the audio, then rendered frame-by-frame
-
-A typical output at 512×512 resolution is ~58 frames at ~2fps, rendered in about 2 minutes on an 8 GB card, with an additional ~40 seconds for GFPGAN face enhancement if enabled.
-
-SadTalker is particularly useful for AI influencers and automated content creation, where a consistent face is needed across many videos.
+GPU peak VRAM: ~5 GB. The model fits. The question is whether 1-bit quantization destroys the model — and whether compiling for a GPU that mainstream toolchains don't yet recognize is worth it.
 
 ---
 
-## The Setup
+## What Is Bonsai-27B
 
-The environment is the same stack used across all previous releases:
+Bonsai-27B is a 27B-parameter dense language model. It's not a MoE. It's not flash-attention optimized for consumer cards. Out of the box, it needs ~50 GB of VRAM. On a 27B model, you're competing with every consumer GPU release since the 3080.
 
-| Spec | Value |
-|------|-------|
-| GPU | RTX 5060 Laptop, 8 GB, sm_120 |
-| CUDA | 132 (PyTorch 2.13.0+cu132) |
-| OS | Windows 11 native (no WSL) |
-| Python | 3.13.14 |
-| ComfyUI | v0.25.0, `--cache-none` |
-| SadTalker | `main` branch (2023 release) |
-| DiffSynth | 2.0.16 |
+The quantization route that makes this work is PrismML's ternary quantization scheme: Q1_0_g128 (1.33 bits per weight) collapses the model to **3.53 GB**. A Q2_0 variant exists at ~6.7 GB with measurably better MMLU (+4.6 percentage points), but fits in 8 GB only at ~7 GB peak — too tight for comfortable use.
 
-SadTalker is imported from the comfyui venv (`E:/WSL/venvs/comfyui/`) and run alongside the image generation pipeline.
+This means the model has to be loaded into an inference engine that understands ternary quantization. The mainstream llama.cpp fork does not. You need PrismML's fork, compiled with CUDA support for the GPU architecture your card uses.
 
 ---
 
-## Pitfall 1: basicsr Fails to Build on Python 3.13
+## The GPU Architecture Problem
 
-SadTalker's dependency chain is `SadTalker → face_enhancer → gfpgan → facexlib → basicsr`. The `basicsr` package provides image degradation utilities used by GFPGAN, but it has no prebuilt wheel for Python 3.13 and its build script fails with:
+The RTX 5060 Laptop GPU uses the **sm_120** compute architecture (Blackwell). This is a first-generation Blackwell consumer card. It is not yet supported by the mainstream CUDA toolkit.
 
-```
-ImportError: cannot import name '__version__' from 'numpy'
-```
+| Tool | Version | sm_120 Support |
+|------|---------|----------------|
+| CUDA 12.4 | NVCC 12.4 | ❌ `"Unsupported gpu architecture 'compute_120'"` |
+| CUDA 12.8 | NVCC 12.8 | ⚠️ experimental, limited |
+| CUDA 13.3 | NVCC 13.3.73 | ✅ native support |
 
-**Root cause:** `basicsr`'s `setup.py` reads `numpy.__version__` at build time, but the way it imports numpy has changed in newer versions. The package author stopped releasing Python 3.13-compatible wheels.
-
-**Solution:** GFPGAN face enhancement is an *optional* post-processing step. SadTalker's core inference does not require it.
-
-Patch `src/utils/face_enhancer.py` to make GFPGAN optional:
-
-```python
-# Before:
-from gfpgan import GFPGANer
-
-# After:
-try:
-    from gfpgan import GFPGANer
-except ImportError:
-    GFPGANer = None
-```
-
-Then guard the usage:
-
-```python
-if GFPGANer is not None:
-    self.face_enhancer = GFPGANer(...)
-```
-
-This makes `--enhancer gfpgan` a graceful no-op instead of a hard crash.
+CUDA 13.3 is the minimum viable toolkit. Without it, the compilation fails before it begins.
 
 ---
 
-## Pitfall 2: np.VisibleDeprecationWarning Removed in Numpy 2.x
+## Pitfall 1: CUDA 13.3 Requires Administrator Install
 
-`SadTalker/src/face3d/util/preprocess.py` contains:
+The CUDA 13.3 installer (2.53 GB) is a Windows executable that must write to `C:\Program Files\NVIDIA GPU Computing Toolkit\`. Running it headless via PowerShell `-Verb RunAs` in a background process fails silently — exit code 8 — because UAC (`EnableLUA=1`) silently rejects the elevated request from a background process.
 
-```python
-warnings.filterwarnings(category=np.VisibleDeprecationWarning)
-```
+The 8 GB CUDA download over a Chinese proxy runs at ~128 KB/s with frequent `schannel: server closed abruptly` disconnections. Single-threaded `curl -C -` (resume) is the only reliable approach. Multi-threaded concurrent downloads are fully rejected by most residential proxies (0 bytes returned).
 
-`np.VisibleDeprecationWarning` was removed in numpy 2.x. Since Python 3.13 only ships with numpy 2.x, this line throws a `NameError` immediately at import time, preventing the entire `face3d` module from loading.
+**Fix:** Either double-click the installer and select Custom → Compiler only (~5 minutes), or use PowerShell with interactive RunAs. There is no clean background install path on UAC-enabled Windows.
 
-**Fix:** Replace with a generic ignore filter:
-
-```python
-warnings.filterwarnings("ignore")
-```
-
-This is safe — the warning was already being suppressed, and the actual deprecation behavior no longer exists.
+After install, the CUDA 12.4 toolkit that shipped with the driver remains intact alongside 13.3 — both coexist without conflict.
 
 ---
 
-## Pitfall 3: torchvision.transforms.functional_tensor Removed
+## Pitfall 2: MSYS2 Bash Cannot Find the MSVC Compiler
 
-`basicsr/data/degradations.py` imports:
+PrismML's llama.cpp fork requires MSVC for CUDA compilation on Windows. MSYS2's `bash` environment does not inherit MSVC's `INCLUDE`, `LIB`, or `PATH`. CMake silently fails because it cannot find `cl.exe`.
 
-```python
-from torchvision.transforms.functional_tensor import random_affine
-```
-
-In newer torchvision, `functional_tensor` was merged into `functional`. The import path no longer exists:
-
-```
-ModuleNotFoundError: No module named 'torchvision.transforms.functional_tensor'
-```
-
-**Fix:** Patch `basicsr/data/degradations.py`:
-
-```python
-# Before:
-from torchvision.transforms.functional_tensor import random_affine
-
-# After:
-from torchvision.transforms.functional import random_affine
-```
-
-This is a one-line compatibility fix that applies regardless of Python version — it just uses the correct current path.
+**Fix:** Explicitly set `INCLUDE` and `LIB` to point to the Windows SDK and MSVC directories, and add the MSVC `bin` directory to `PATH`. Also set `CUDAHOSTCXX` explicitly — otherwise `nvcc` cannot find the host compiler and fails with `cl.exe not found`.
 
 ---
 
-## Pitfall 4: torch Tensor Conversion Broken in Numpy 2.x
+## Pitfall 3: The build.ninja Linux Flag Crashes the Linker
 
-Two lines in SadTalker's `preprocess.py` try to extract scalar values from torch tensors using numpy's old conversion path:
+CMake reports success, but the `build.ninja` file contains:
 
-```python
-# Before (broken):
-float(t[0])
-int(np.int32(w0*s))
-
-# After (fixed):
-float(np.asarray(t[0]).item())
-int(float(w0*s))
+```
+LINK_FLAGS = -shared /machine:x64
 ```
 
-In numpy 2.x, `np.int32(float_value)` with a non-integer input raises a `ValueError`. The fix uses `np.asarray(t[0]).item()` to extract the Python scalar cleanly, and `int(float(...))` for the second expression.
+The `-shared` flag is a GCC/LLVM linker flag. It does not exist in MSVC's `link.exe`. When Ninja invokes the link step, `link.exe` encounters an unknown flag and crashes with `ACCESS_VIOLATION` (exit code 3221225794).
+
+**Fix:** Replace `-shared` with `/DLL`:
+
+```
+LINK_FLAGS = /DLL /machine:x64
+```
+
+One line. This is a CMake generator-platform mismatch — Ninja assumes Linux conventions on a Windows cross-build that targets MSVC. It is not documented anywhere upstream.
 
 ---
 
-## The Working Parameter Combination
+## Pitfall 4: Ternary Quantization Is Not Mainstream
 
-After the four patches, SadTalker imports and runs. The parameter combination that produces natural results on 8 GB is:
+The Bonsai-27B GGUF uses ternary quantization (Q1_0_g128 / Q2_0_g128). The mainstream llama.cpp and all its consumer forks (llama.cpp, qwen, mlx) do not understand ternary weights. Loading the model produces garbage or crashes.
+
+The PrismML fork that supports ternary quantization is a separate repository (`aionoid/prismml-llama-cpp`) with a specific branch and commit. This is not a drop-in replacement — it's a different codebase that tracks the same upstream and adds ternary support.
+
+---
+
+## The Working Configuration
 
 ```bash
-python inference.py \
-  --source_image path/to/face.png \
-  --driven_audio path/to/speech.wav \
-  --result_dir output/ \
-  --size 512 \
-  --expression_scale 1.0 \
-  --pose_style 1 \
-  --preprocess full
+cmake -G Ninja ^
+  -B build.gpu ^
+  -S . ^
+  -DLLAMA_CUDA=ON ^
+  -DCMAKE_CUDA_ARCHITECTURES=120
 ```
 
-Key parameters:
+Run in the PrismML fork at the correct commit. Compilation produces `llama-cli.exe` (62 MB with CUDA support, 7 MB CPU-only).
 
-| Parameter | Value | Why |
-|-----------|-------|-----|
-| `--size` | 512 | HD output, fits in 8 GB VRAM |
-| `--expression_scale` | 1.0 | Natural amplitude; 1.5 is over-expressive |
-| `--pose_style` | 1 | Natural head movement |
-| `--preprocess` | `full` | Full face alignment |
-| `--enhancer` | `gfpgan` (optional) | Only if GFPGANer is available |
-| `--still` | *omitted* | Head movement is desirable for natural look |
+Runtime:
 
-The `--still` flag (previously used in earlier setups) produces a frozen face — expressive and clear, but unnatural. Omitting it gives the face micro-movement that reads as lifelike.
+```bash
+llama-cli.exe ^
+  -m Bonsai-27B-Q1_0.gguf ^
+  -p "Your prompt here" ^
+  -n 512 ^
+  -c 2048 ^
+  --temp 0.7 ^
+  --n-gpu-layers 64
+```
 
----
-
-## The Patch Set Summary
-
-| File | Fix | Lines changed |
-|------|-----|---------------|
-| `src/utils/face_enhancer.py` | GFPGANer → try/except ImportError | 3 |
-| `src/face3d/util/preprocess.py` | `np.VisibleDeprecationWarning` → `"ignore"` | 1 |
-| `src/face3d/util/preprocess.py` | `float(t[0])` → `float(np.asarray(t[0]).item())` | 2 |
-| `basicsr/data/degradations.py` | `functional_tensor` → `functional` | 1 |
-
-Total: **5 lines** across 3 files. No code added, only compatibility patches.
+All 64 layers load to CUDA0. Peak VRAM consumption: ~5 GB. Remaining VRAM (~3 GB): available for other models or system overhead.
 
 ---
 
-## Results
+## Performance
 
-A typical 58-frame talking-head video at 512×512 produces:
+| Metric | CPU-only | GPU (Blackwell) | Speedup |
+|--------|----------|-----------------|---------|
+| Prompt processing | 8.2 t/s | **108.3 t/s** | 13.2× |
+| Token generation | 7.6 t/s | **34.5 t/s** | 4.5× |
+| Peak memory | ~4 GB RAM | ~5 GB VRAM | — |
 
-| Metric | Value |
-|--------|-------|
-| Render time | ~2 minutes |
-| Face enhancement | ~40 seconds (if GFPGAN available) |
-| Output size | 1.4–1.5 MB (MP4) |
-| VRAM usage | ~4–5 GB during rendering |
+Test conditions: `-n 64` output tokens, `-c 2048` context, temperature 0.7.
 
-Lip-sync quality is good for AI influencer content — mouth movement matches phoneme timing, and expression_scale=1.0 keeps the face from looking exaggerated.
+The prompt speedup is the more dramatic number — 13× over CPU. This is because prompt processing is memory-bandwidth bounded and the GPU's HBM-equivalent memory subsystem (GDDR7 on Blackwell) is massively faster than system RAM. Token generation is compute-bound and the speedup is smaller, but 34.5 t/s is fast enough for real-time interaction on a 27B model.
+
+---
+
+## Q1_0 vs Q2_0: The Trade-Off
+
+| | Q1_0 (1.33 bits) | Q2_0 (1.73 bits) |
+|---|---|---|
+| File size | 3.53 GB | ~6.67 GB |
+| Peak VRAM | ~5 GB (comfortable) | ~7 GB (tight) |
+| MMLU (theoretical) | ~61.2 | ~65.8 (+4.6 pp) |
+| HellaSwag | ~79.4 | ~81.1 (+1.7 pp) |
+| 8 GB fits? | ✅ | ⚠️ (barely) |
+
+The Q2_0 file is 6.67 GB. At download speeds of ~225 KB/s through residential proxies, the file takes 10+ hours with frequent disconnections. In practice, the Q2_0 GGUF I downloaded corrupted at the file level — an offset mismatch in the weight tensor (19.8 MB misalignment), not a build error. The file itself was damaged, not the binary.
+
+For most use cases, Q1_0 at 3.6 GB is the practical choice. The model is coherent, chain-of-thought reasoning works, and 34.5 t/s is more than enough for an offline private model.
 
 ---
 
@@ -213,19 +151,20 @@ Lip-sync quality is good for AI influencer content — mouth movement matches ph
 
 | Lesson | Detail |
 |--------|--------|
-| **SadTalker is Python 3.11-era code** | It was written in 2023 and hasn't kept up with numpy 2.x, Python 3.13, or modern torchvision. |
-| **Optional dependencies should be optional** | GFPGAN is enhancement, not core. SadTalker should handle its absence gracefully. |
-| **5 lines of patches, not a fork** | The fixes are small compatibility shims. They're better as patches than as a full fork that diverges. |
-| **`--still` is not always `--still`** | Removing `--still` gives natural micro-movement. The flag is a stylistic choice, not a bug fix. |
-| **8 GB is enough** | SadTalker renders at ~4–5 GB peak VRAM. A second 8 GB card on a workstation is unnecessary. |
+| **Blackwell is a first-class citizen in CUDA 13.3 only** | NVCC 12.4 cannot see sm_120 at all. No workaround. |
+| **Ternary quantization is the only path** | Mainstream GGUF does not support it. You need a specific fork. |
+| **1-bit is viable for 27B** | At 3.6 GB, a 27B model runs on the cheapest 8 GB card. The quality loss is real but acceptable for offline use. |
+| **MSVC + CMake + Ninja on Windows is brittle** | Three silent failure modes (MSVC not found, Linux linker flags, CUDAHOSTCXX missing) require manual patching that upstream has not fixed. |
+| **Q2_0 is too tight for 8 GB** | 7 GB peak VRAM leaves no headroom. Q1_0 is the only comfortable choice. |
+| **This is not an Agent mainline** | 34.5 t/s is fast enough for chat, not fast enough for sub-second agent loops. Position this as a privacy/offline fallback, not a primary inference engine. |
 
 ---
 
 ## The Real Story
 
-SadTalker is one of the oldest open-source talking-head tools, and it shows. The original implementation was designed for Python 3.11 with numpy 1.26, a combination that no longer exists on modern systems.
+A 27B language model on 8 GB should not work. It does, but only by collapsing the model to 1.33 bits per weight, using a CUDA version released less than a year ago, and compiling against a custom fork of llama.cpp that adds support for a quantization scheme the mainstream ignores.
 
-Four patches, five lines, and it works. The question isn't whether SadTalker is broken — it's why nobody upstream has fixed the four compatibility shims it needs for Python 3.13.
+The pipeline works. The 4.5× GPU speedup makes it usable. But the number of manual interventions required — administrator-privileged CUDA installation, MSVC path plumbing, linker flag patching, ternary quantization fork compilation — makes this a one-off engineering exercise, not a drop-in solution. If you want a private 27B on an 8 GB card, it's doable. If you want it to just work, pick a smaller model.
 
 ---
 
@@ -233,10 +172,19 @@ Four patches, five lines, and it works. The question isn't whether SadTalker is 
 
 | Spec | Value |
 |------|-------|
-| GPU | RTX 5060 Laptop, 8 GB, sm_120 |
-| CUDA | 132 (PyTorch 2.13.0+cu132) |
-| SadTalker | `main` (2023), patched |
-| DiffSynth | 2.0.16 |
-| OS | Windows 11 native |
+| GPU | RTX 5060 Laptop, 8 GB, sm_120 (Blackwell) |
+| Driver | NVIDIA-SMI 596.36 |
+| CUDA | 13.3.73 |
+| MSVC | 19.44.35207 |
+| CMake | 4.4 |
 | Python | 3.13.14 |
-| Status | ✅ Runnable (core), ⚠️ GFPGAN optional |
+| OS | Windows 11 native |
+| Model | Bonsai-27B-Q1_0.gguf (ternary, 3.53 GB) |
+| Engine | prismml-llama-cpp (aionoid fork), commit 3aa406f |
+| VRAM peak | ~5 GB |
+| Prompt speed | 108.3 t/s |
+| Generation speed | 34.5 t/s |
+
+---
+
+*Part of the [ai-pipeline-local](https://github.com/Ultramanmao/ai-pipeline-local) series — running open-source AI on a consumer 8 GB GPU.*
