@@ -56,6 +56,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 ||| **v13.0** | 2026-07-20 | [Z-Image Turbo on 8 GB: Is 4 Steps Enough?](docs/releases/v13.0_Z-Image-Turbo-4-vs-20-Steps-Comparison.md) | Full write-up |
 ||| **v14.0** | 2026-07-22 | [8 GB Local LLM Benchmark: Five Models, Six Tests, One Question](docs/releases/v14.0_8GB-Local-LLM-Benchmark-Five-Models-Six-Tests.md) | Full write-up |
 ||| **v17.0** | 2026-07-28 | [Full Chain v17.0 on 8 GB: One Command, 300 Characters to a 40-Second Vertical Video](docs/releases/v17.0_full-chain-17-long-text-vertical-video.md) | Full write-up |
+||| **v18.0** | 2026-07-28 | [FunASR English-Word Whitelist: The Subtitle Fix full_chain.py Was Missing](docs/releases/v18.0_FunASR-English-Whitelist-Subtitle-Fix.md) | Full write-up |
 
 ---
 
