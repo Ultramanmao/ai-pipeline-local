@@ -29,7 +29,7 @@
 | Flux.2 Klein 4B FP8 | ✅ Running | Newer architecture, 8-step | — |
 | Wan2GP | 🟢 Installed | Video generation Web GUI (Sage2 RTX50xx) | — |
 || SadTalker | ✅ Running | Talking-head / digital human (8 GB) | — |
-|| **Local LLMs (llama.cpp)** | ✅ Benchmarkable | LLM reasoning benchmark · 5 models, 6 tests | [v14.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v14.0) |
+||| **Local LLMs (llama.cpp)** | ✅ Benchmarkable | Local LLM reasoning + speed benchmark · 5 models, 8 GB sweet-spot chart | [v14.0 → v21.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v21.0) |
 
 </div>
 
@@ -57,8 +57,9 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 ||| **v14.0** | 2026-07-22 | [8 GB Local LLM Benchmark: Five Models, Six Tests, One Question](docs/releases/v14.0_8GB-Local-LLM-Benchmark-Five-Models-Six-Tests.md) | Full write-up |
 ||| **v17.0** | 2026-07-28 | [Full Chain v17.0 on 8 GB: One Command, 300 Characters to a 40-Second Vertical Video](docs/releases/v17.0_full-chain-17-long-text-vertical-video.md) | Full write-up |
 | **v18.0** | 2026-07-28 | [FunASR English-Word Whitelist: The Subtitle Fix full_chain.py Was Missing](docs/releases/v18.0_FunASR-English-Whitelist-Subtitle-Fix.md) | Full write-up |
-| **v19.0** | 2026-08-16 | [Gemma-4-12B-Instruct Q4_K_S on 8 GB: The Partial-Offload Gamble](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v19.0) | Full write-up |
-| **v20.0** | 2026-08-17 | [Hermes Agent 0.20: The Herald Release — What Matters for a Local AI Pipeline](docs/releases/v20.0_Hermes-Agent-0.20-Herald-Release-Review.md) | Full write-up |
+|| **v19.0** | 2026-08-16 | [Gemma-4-12B-Instruct Q4_K_S on 8 GB: The Partial-Offload Gamble](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v19.0) | Full write-up |
+|| **v20.0** | 2026-08-17 | [Hermes Agent 0.20: The Herald Release — What Matters for a Local AI Pipeline](docs/releases/v20.0_Hermes-Agent-0.20-Herald-Release-Review.md) | Full write-up |
+|| **v21.0** | 2026-08-18 | [Qwen3.6-35B-A3B Uncensored on 8 GB: The MoE That Won The Sweet Spot — Five Local LLMs, One Chart](docs/releases/v21.0_Qwen36-35B-MoE-8GB-Sweet-Spot-Five-Models.md) | Full write-up |
 
 ---
 
