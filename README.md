@@ -24,7 +24,8 @@
 | Flux.1-dev Q4_K_S GGUF | ✅ Running | Photorealistic images with realism LoRA | [v1.0 / v2.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
 | Qwen-Image (full 17B) | ✅ Running | Best open-source Chinese text rendering (12 GB+ GPU) | [v1.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
 | Qwen-Image Q3_K_S GGUF | ✅ Running | Chinese text rendering on 8 GB (~5.4 GB VRAM) | [v1.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
-| Z-Image Turbo FP8 | ✅ Running | High-res, fast 4-step generation | — |
+|| Z-Image Turbo FP8 | ✅ Running | High-res, fast 4-step generation | — |
+|| **Krea2 fp8 + DyPE + SEGA** | ✅ Running | 2048² images on 8 GB — DyPE latent extrapolation | [v22.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v22.0) |
 | LTX-2B I2V | ✅ Running | Text-to-video with keyframe locking | [v4.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v4.0) |
 | Flux.2 Klein 4B FP8 | ✅ Running | Newer architecture, 8-step | — |
 | Wan2GP | 🟢 Installed | Video generation Web GUI (Sage2 RTX50xx) | — |
@@ -59,7 +60,8 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v18.0** | 2026-07-28 | [FunASR English-Word Whitelist: The Subtitle Fix full_chain.py Was Missing](docs/releases/v18.0_FunASR-English-Whitelist-Subtitle-Fix.md) | Full write-up |
 || **v19.0** | 2026-08-16 | [Gemma-4-12B-Instruct Q4_K_S on 8 GB: The Partial-Offload Gamble](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v19.0) | Full write-up |
 || **v20.0** | 2026-08-17 | [Hermes Agent 0.20: The Herald Release — What Matters for a Local AI Pipeline](docs/releases/v20.0_Hermes-Agent-0.20-Herald-Release-Review.md) | Full write-up |
-|| **v21.0** | 2026-08-18 | [Qwen3.6-35B-A3B Uncensored on 8 GB: The MoE That Won The Sweet Spot — Five Local LLMs, One Chart](docs/releases/v21.0_Qwen36-35B-MoE-8GB-Sweet-Spot-Five-Models.md) | Full write-up |
+| **v21.0** | 2026-08-18 | [Qwen3.6-35B-A3B Uncensored on 8 GB: The MoE That Won The Sweet Spot — Five Local LLMs, One Chart](docs/releases/v21.0_Qwen36-35B-MoE-8GB-Sweet-Spot-Five-Models.md) | Full write-up |
+|| **v22.0** | 2026-08-23 | [Krea2 fp8 + DyPE on 8 GB: 2048² in 135 Seconds, No Extra VRAM](docs/releases/v22.0_Krea2-fp8-DyPE-8GB-2048-No-Extra-VRAM.md) | Full write-up |
 
 ---
 
