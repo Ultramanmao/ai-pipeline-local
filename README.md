@@ -62,6 +62,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 || **v20.0** | 2026-08-17 | [Hermes Agent 0.20: The Herald Release — What Matters for a Local AI Pipeline](docs/releases/v20.0_Hermes-Agent-0.20-Herald-Release-Review.md) | Full write-up |
 | **v21.0** | 2026-08-18 | [Qwen3.6-35B-A3B Uncensored on 8 GB: The MoE That Won The Sweet Spot — Five Local LLMs, One Chart](docs/releases/v21.0_Qwen36-35B-MoE-8GB-Sweet-Spot-Five-Models.md) | Full write-up |
 || **v22.0** | 2026-08-23 | [Krea2 fp8 + DyPE on 8 GB: 2048² in 135 Seconds, No Extra VRAM](docs/releases/v22.0_Krea2-fp8-DyPE-8GB-2048-No-Extra-VRAM.md) | Full write-up |
+| **v24.0** | 2026-08-25 | [DyPE+SEGA Benchmark Video: Five-Dimension Comparison on 8GB VRAM](docs/v24.0-dype-sega-benchmark-video.md) | Full write-up |
 
 ---
 
