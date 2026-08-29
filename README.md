@@ -4,7 +4,7 @@
 
 ### Running open-source AI image & video generation on a consumer **8 GB GPU** under Windows native
 
-> Flux · Qwen-Image · Z-Image · LTX-2B · Wan2GP · SadTalker
+> Flux · Qwen-Image · Z-Image · LTX-2B · Wan2GP · SadTalker · **MiniMax H3**
 >
 > **Others write hype. I write what happens when the 47th OOM crashes on an 8 GB card - and how it finally works.**
 
@@ -31,6 +31,7 @@
 | Wan2GP | 🟢 Installed | Video generation Web GUI (Sage2 RTX50xx) | — |
 || SadTalker | ✅ Running | Talking-head / digital human (8 GB) | — |
 ||| **Local LLMs (llama.cpp)** | ✅ Benchmarkable | Local LLM reasoning + speed benchmark · 5 models, 8 GB sweet-spot chart | [v14.0 → v21.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v21.0) |
+||| **MiniMax H3 (video+audio)** | ✅ Running | Joint video + stereo audio generation, 1344×768 / 5.9s / 14 min on 8 GB | [v25.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v25.0) |
 
 </div>
 
@@ -62,7 +63,8 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 || **v20.0** | 2026-08-17 | [Hermes Agent 0.20: The Herald Release — What Matters for a Local AI Pipeline](docs/releases/v20.0_Hermes-Agent-0.20-Herald-Release-Review.md) | Full write-up |
 | **v21.0** | 2026-08-18 | [Qwen3.6-35B-A3B Uncensored on 8 GB: The MoE That Won The Sweet Spot — Five Local LLMs, One Chart](docs/releases/v21.0_Qwen36-35B-MoE-8GB-Sweet-Spot-Five-Models.md) | Full write-up |
 || **v22.0** | 2026-08-23 | [Krea2 fp8 + DyPE on 8 GB: 2048² in 135 Seconds, No Extra VRAM](docs/releases/v22.0_Krea2-fp8-DyPE-8GB-2048-No-Extra-VRAM.md) | Full write-up |
-| **v24.0** | 2026-08-25 | [DyPE+SEGA Benchmark Video: Five-Dimension Comparison on 8GB VRAM](docs/v24.0-dype-sega-benchmark-video.md) | Full write-up |
+|| **v24.0** | 2026-08-25 | [DyPE+SEGA Benchmark Video: Five-Dimension Comparison on 8GB VRAM](docs/v24.0-dype-sega-benchmark-video.md) | Full write-up |
+|| **v25.0** | 2026-08-29 | [MiniMax H3 on 8 GB: Video + Audio Joint Generation, 33 GB of Models in 8 GB of VRAM](docs/releases/v25.0_8GB-Runs-MiniMax-H3-Video-Audio-Joint.md) | Full write-up |
 
 ---
 
