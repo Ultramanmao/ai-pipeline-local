@@ -65,6 +65,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 || **v22.0** | 2026-08-23 | [Krea2 fp8 + DyPE on 8 GB: 2048² in 135 Seconds, No Extra VRAM](docs/releases/v22.0_Krea2-fp8-DyPE-8GB-2048-No-Extra-VRAM.md) | Full write-up |
 || **v24.0** | 2026-08-25 | [DyPE+SEGA Benchmark Video: Five-Dimension Comparison on 8GB VRAM](docs/v24.0-dype-sega-benchmark-video.md) | Full write-up |
 || **v25.0** | 2026-08-29 | [MiniMax H3 on 8 GB: Video + Audio Joint Generation, 33 GB of Models in 8 GB of VRAM](docs/releases/v25.0_8GB-Runs-MiniMax-H3-Video-Audio-Joint.md) | Full write-up |
+| **v26.0** | 2026-08-31 | [40-Second Continuous H3 Video on 8GB GPU via Motion Context](docs/releases/v26.0_40-Second-Continuous-H3-Video-on-8GB-GPU-via-Motion-Context.md) | Full write-up |
 
 ---
 
