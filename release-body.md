@@ -1,132 +1,87 @@
-# v23.0 — One Flag, +92%: MTP Speculative Decoding on Qwen3.8
+# v27.0 — H3 vs LTX-2.3: Video Pipeline Showdown on 8GB GPU
 
-**TL;DR:** Adding `--spec-type draft-mtp` to your llama.cpp server command gives Qwen3.8-27B a **92% speed boost** on an 8GB laptop GPU. No recompilation, no extra VRAM, no fork needed.
-
----
-
-## The Problem
-
-Qwen3.8-27B-Q4_K_M is a dense 27B model. On an RTX 5060 Laptop (8GB VRAM), it generates at **3.9 tok/s** with `ngl=20`. Usable, but slow — every long-form response feels like watching paint dry.
-
-The usual escape hatch for dense models is speculative decoding with a draft model. But that requires finding a compatible small model, loading both into VRAM, and tuning the acceptance pipeline. On 8GB, there's simply no room for a second model.
-
-## The Discovery
-
-Qwen3.8 has **MTP (Multi-Token Prediction) heads baked into the GGUF file**. This is a training-time capability — the model was trained to predict the next 2-3 tokens simultaneously. The MTP heads are stored as extra layers in the GGUF tensor data.
-
-llama.cpp (upstream, as of mid-2025 builds) already supports MTP as a speculative decoding draft source. No fork needed. No extra model. The MTP heads *are* the draft model.
-
-## The Command
-
-```bash
-llama-server \
-  -m Qwen3.8-27B-Q4_K_M.gguf \
-  -ngl 20 \
-  --spec-type draft-mtp \
-  --spec-draft-n-max 2 \
-  --parallel 1
-```
-
-Three flags. That's it.
-
-## Benchmark Results
-
-**Hardware:** RTX 5060 Laptop GPU, 8GB VRAM, 32GB RAM
-**Model:** Qwen3.8-27B-Q4_K_M (14.8GB, GGUF v3)
-**Tool:** llama-bench, r=3, batch=2048, t=16
-
-### Generation Speed
-
-| Config | tg64 tok/s | Change |
-|--------|-----------|--------|
-| Baseline (no MTP) | 3.82 ± 0.01 | — |
-| **MTP ON (n_max=2)** | **7.50 ± 0.10** | **+92%** |
-
-Three runs, stable at 7.4–7.6 tok/s.
-
-### Draft Acceptance
-
-| Metric | Value |
-|--------|-------|
-| Draft acceptance rate | **84%** |
-| Average draft length | **2.68 tokens** |
-| Effective tokens per step | ~2.2 (1 real + 1.2 accepted) |
-
-The model "guesses" the next 2 tokens. 84% of the time, both guesses are correct — meaning only 1 forward pass produces ~2.2 output tokens on average.
-
-### ngl Sweet Spot
-
-| ngl | pp512 tok/s | tg64 tok/s | VRAM | Note |
-|-----|-------------|------------|------|------|
-| 40 | 32.89 | 1.04 | 7599 MB | MTP head on CPU, pp collapses |
-| 30 | 33.15 | 2.58 | — | Same issue |
-| **20** | **281.52** | **3.82** | **6439 MB** | **Sweet spot** |
-| 10 | 244.41 | 3.32 | — | Not enough main layers on GPU |
-| 0 | 227.15 | 2.81 | — | Full CPU |
-
-**ngl=20** is where the MTP prediction head is fully offloaded to GPU. Prompt processing jumps 8.5× compared to ngl=30, and VRAM usage is at its lowest.
-
-### Comparison: ik_llama.cpp (❌ Failed)
-
-A popular fork (3,000+ stars) claims better quantization formats. Tested on the same hardware:
-
-| Build | pp512 | tg128 |
-|-------|-------|-------|
-| stock llama.cpp | 291 t/s | 3.91 t/s |
-| ik_llama.cpp | 261 t/s | 2.95 t/s |
-| **Difference** | **-10%** | **-25%** |
-
-The alternative formats (IQ4_KS, IQ3_XXS) offer only 5-30% size reduction, and IQ3 quality is visibly degraded. **Stock llama.cpp + MTP flag is the optimal path.**
-
-## Three Critical Parameters
-
-### `--spec-type draft-mtp`
-Enables MTP-based speculative decoding. The model's own MTP heads act as the draft model — no external model needed.
-
-### `--spec-draft-n-max 2`
-Predicts 2 tokens per step. Higher values (3+) have diminishing returns because acceptance rate drops sharply for the 3rd token.
-
-### `--parallel 1`
-**Must be 1.** Setting parallel to 4 (for multi-user serving) disables speculative decoding entirely. This is a current llama.cpp limitation — MTP speculation and request parallelism are mutually exclusive.
-
-## Compatibility
-
-| Model | MTP Support | Result |
-|-------|-------------|--------|
-| Qwen3.8-27B | ✅ Built-in | +92% speed |
-| Qwen3.8-27B (other quants) | ✅ Built-in | Same boost (verify GGUF has MTP layers) |
-| Qwen3.6-35B-A3B | ❌ No MTP layers | `model doesn't contain MTP layers` error |
-| Other models | ⚠️ Check GGUF | MTP layers must exist in the file |
-
-To verify if your GGUF has MTP layers:
-```bash
-# Check for MTP-related tensor names
-llama-gguf-info -m your-model.gguf | grep -i mtp
-```
-
-## Dual-Model Setup with llama-swap
-
-Since MTP only works with Qwen3.8, and Qwen3.6-35B remains the daily driver (30.79 tok/s with `--cpu-moe`), I use **llama-swap** (5,435 stars) to hot-swap between both models:
-
-```
-# llama-swap config
-[models]
-qwen36 = { cmd = "llama-server -m Qwen3.6-35B-A3B-Q4_K_M.gguf -ngl 20 --cpu-moe 20" }
-qwen38 = { cmd = "llama-server -m Qwen3.8-27B-Q4_K_M.gguf -ngl 20 --spec-type draft-mtp --spec-draft-n-max 2 --parallel 1" }
-```
-
-Both models share the same 8GB VRAM (never loaded simultaneously). llama-swap auto-unloads after 5 minutes of inactivity.
-
-## Key Takeaways
-
-1. **MTP is not a hack.** It's a training-time capability that Qwen3.8 ships with. The GGUF file already contains the MTP heads.
-2. **No fork needed.** Upstream llama.cpp supports `--spec-type draft-mtp` since mid-2025. Don't waste time compiling forks.
-3. **One flag, one constraint.** The speed boost is free, but `--parallel` must be 1. Multi-user serving and MTP speculation don't mix (yet).
-4. **Dense models benefit most.** MoE models like Qwen3.6-35B already run fast via expert offloading. MTP's 2× boost matters most for dense models where every token is a full forward pass.
+**TL;DR:** Ran MiniMax H3 and LTX-2.3 head-to-head on an 8GB RTX 5060 with 5 identical test cases. LTX is **8× faster** (3 min vs 7 min per 5-second clip) with **identical short-clip quality**, but H3 owns long video (Motion Context, 40-60s) and native audio generation.
 
 ---
 
-**Files:**
-- Model: `Qwen3.8-27B-Q4_K_M.gguf` (unsloth/Qwen3.8-27B-GGUF)
-- llama-swap config: `E:/WSL/llama-swap/`
-- Benchmark data: `D:/数据库集合/工程项目数据库/2026-08-22_GitHub生态调研-MTP实测.md`
+## The Question
+
+Two serious open-source video diffusion pipelines, one 8GB GPU. Which one?
+
+| | H3 INT8 ConvRot | LTX-2.3 distilled |
+|---|---|---|
+| Model size | 20 GB | 14 GB (Q4_K_M) |
+| Steps | 20 (native) | 8 (distilled) |
+| Speed (5s clip) | **7 min** | **3 min** |
+| Long video | ✅ Motion Context 40-60s | ❌ Single segment |
+| Native audio | ✅ One pass | ⚠️ Needs AV pipeline |
+| VRAM peak | ~7.5 GB | ~6 GB |
+
+## Speed: Consistent 8× Gap
+
+| Case | H3 | LTX | Ratio |
+|------|-----|------|-------|
+| Static scene | ~25 min | ~3 min | ~8× |
+| Human motion | 6.8 min | ~3 min | ~8× |
+| Fast motion | 7.0 min | ~3 min | ~8× |
+| I2V fidelity | 6.8 min | ~3 min | ~8× |
+| Audio test | 7.1 min | ~5 min | ~5× |
+
+The 8× ratio holds across all non-audio cases. It's baked into step count (20 vs 8).
+
+## Quality: No Gap at 5 Seconds
+
+| Dimension | H3 | LTX |
+|-----------|-----|------|
+| Overall quality | 3.5/5 | 3.5/5 |
+| Detail sharpness | 3.5 | 3.5 |
+| Color rendition | **4.0** | 3.5 |
+| Motion smoothness | 3.5 | 3.5 |
+| Temporal consistency | 3.5 | 3.5 |
+
+H3 has slightly better color saturation. Otherwise identical for short clips.
+
+## The Biggest Pitfall: LTX Audio Pipeline
+
+LTX generates silent video by default. The fix requires a specific node chain most tutorials skip:
+
+```
+LTXAVTextEncoderLoader (NOT DualCLIPLoaderGGUF)
+→ LTXVEmptyLatentAudio
+→ LTXVConcatAVLatent
+→ Sampler
+→ LTXVSeparateAVLatent
+→ VAEDecode + LTXVAudioVAEDecode
+```
+
+`DualCLIPLoaderGGUF` loads the video text encoder only — no audio embeddings, no audio output, no error message.
+
+## Decision Matrix
+
+| Scenario | Pick | Why |
+|----------|------|-----|
+| Rapid prototyping | LTX | 3 min concept |
+| Under 10 seconds | Either | No quality gap |
+| Over 10 seconds | H3 | Motion Context |
+| With audio | H3 | One-pass, zero config |
+| Final production | H3 | 20 steps, better color |
+
+## Lessons
+
+1. **Speed gap is structural** — 20 steps vs 8 steps, no optimization will close it
+2. **Quality gap only appears beyond 5 seconds** — long video chaining is H3's real advantage
+3. **LTX audio works but the pipeline is obscure** — `LTXAVTextEncoderLoader` is the key
+4. **H3 native audio is a workflow win** — one node, one pass, perfect sync
+5. **VRAM headroom favors LTX** — 6 GB vs 7.5 GB, 1.5 GB matters on 8 GB cards
+
+## Hardware Reference
+
+| Spec | Value |
+|------|-------|
+| GPU | RTX 5060 Laptop 8 GB |
+| RAM | 32 GB |
+| CUDA | 12.8 |
+| Framework | ComfyUI v0.34.1 |
+| OS | Windows 11 native |
+| H3 model | minimax_h3_fl2va_pruned_int8_convrot |
+| LTX model | ltx-2.3-22b-distilled-1.1-Q4_K_M |
