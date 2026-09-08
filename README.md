@@ -68,6 +68,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v26.0** | 2026-08-31 | [40-Second Continuous H3 Video on 8GB GPU via Motion Context](docs/releases/v26.0_40-Second-Continuous-H3-Video-on-8GB-GPU-via-Motion-Context.md) | Full write-up |
 | **v27.0** | 2026-09-06 | [H3 vs LTX-2.3: Video Pipeline Showdown on 8GB GPU](docs/releases/v27.0_H3-vs-LTX-2.3-Video-Pipeline-Showdown-on-8GB-GPU.md) | Full write-up |
 | **v28.0** | 2026-09-08 | [Three TTS Engines on 8 GB: Emotion Showdown — MegaTTS3 vs IndexTTS 2.5 vs CosyVoice2](docs/releases/v28.0.md) | Full write-up |
+| **v29.0** | 2026-09-08 | [From Script to Story — Building a 46-Second AI Short Film on 8 GB](docs/releases/v29.0.md) | Full write-up + video |
 
 ---
 
