@@ -66,6 +66,8 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 || **v24.0** | 2026-08-25 | [DyPE+SEGA Benchmark Video: Five-Dimension Comparison on 8GB VRAM](docs/v24.0-dype-sega-benchmark-video.md) | Full write-up |
 || **v25.0** | 2026-08-29 | [MiniMax H3 on 8 GB: Video + Audio Joint Generation, 33 GB of Models in 8 GB of VRAM](docs/releases/v25.0_8GB-Runs-MiniMax-H3-Video-Audio-Joint.md) | Full write-up |
 | **v26.0** | 2026-08-31 | [40-Second Continuous H3 Video on 8GB GPU via Motion Context](docs/releases/v26.0_40-Second-Continuous-H3-Video-on-8GB-GPU-via-Motion-Context.md) | Full write-up |
+| **v27.0** | 2026-09-06 | [H3 vs LTX-2.3: Video Pipeline Showdown on 8GB GPU](docs/releases/v27.0_H3-vs-LTX-2.3-Video-Pipeline-Showdown-on-8GB-GPU.md) | Full write-up |
+| **v28.0** | 2026-09-08 | [Three TTS Engines on 8 GB: Emotion Showdown — MegaTTS3 vs IndexTTS 2.5 vs CosyVoice2](docs/releases/v28.0.md) | Full write-up |
 
 ---
 
