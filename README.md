@@ -70,6 +70,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v28.0** | 2026-09-08 | [Three TTS Engines on 8 GB: Emotion Showdown — MegaTTS3 vs IndexTTS 2.5 vs CosyVoice2](docs/releases/v28.0.md) | Full write-up |
 | **v29.0** | 2026-09-08 | [From Script to Story — Building a 46-Second AI Short Film on 8 GB](docs/releases/v29.0.md) | Full write-up + video |
 | **v30.0** | 2026-09-10 | [120-Second AI Dance Video on 8GB GPU — Scaling Motion Context to 2 Minutes](docs/releases/v30.0.md) | Full write-up + video |
+| **v31.0** | 2026-09-12 | [Three Post-Processing Tricks for H3 Video on 8 GB — What Works, What Doesn't](docs/releases/v31.0_Three-Post-Processing-Tricks-H3-8GB.md) | Full write-up |
 
 ---
 
