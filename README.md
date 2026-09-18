@@ -72,6 +72,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v30.0** | 2026-09-10 | [120-Second AI Dance Video on 8GB GPU — Scaling Motion Context to 2 Minutes](docs/releases/v30.0.md) | Full write-up + video |
 | **v31.0** | 2026-09-12 | [Three Post-Processing Tricks for H3 Video on 8 GB — What Works, What Doesn't](docs/releases/v31.0_Three-Post-Processing-Tricks-H3-8GB.md) | Full write-up |
 | **v32.0** | 2026-09-14 | [Building a 7,000-Asset AI Library With a Three-Layer Review Pipeline](docs/releases/v32.0.md) | Full write-up |
+| **v33.0** | 2026-09-17 | [AuK — One Model Replaces Your Entire Voice Pipeline](docs/releases/v33.0.md) | Full write-up |
 
 ---
 
