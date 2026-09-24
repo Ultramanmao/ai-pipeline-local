@@ -24,6 +24,7 @@
 | Flux.1-dev Q4_K_S GGUF | ✅ Running | Photorealistic images with realism LoRA | [v1.0 / v2.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
 | Qwen-Image (full 17B) | ✅ Running | Best open-source Chinese text rendering (12 GB+ GPU) | [v1.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
 | Qwen-Image Q3_K_S GGUF | ✅ Running | Chinese text rendering on 8 GB (~5.4 GB VRAM) | [v1.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v1.0) |
+| Qwen-Image 2.1 (INT8 ConvRot) | ✅ Running | Native transparent PNG + Chinese text, 2K on 8 GB | [v35.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v35.0) |
 || Z-Image Turbo FP8 | ✅ Running | High-res, fast 4-step generation | — |
 || **Krea2 fp8 + DyPE + SEGA** | ✅ Running | 2048² images on 8 GB — DyPE latent extrapolation | [v22.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v22.0) |
 | LTX-2B I2V | ✅ Running | Text-to-video with keyframe locking | [v4.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v4.0) |
@@ -77,6 +78,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v32.0** | 2026-09-14 | [Building a 7,000-Asset AI Library With a Three-Layer Review Pipeline](docs/releases/v32.0.md) | Full write-up |
 | **v33.0** | 2026-09-17 | [AuK — One Model Replaces Your Entire Voice Pipeline](docs/releases/v33.0.md) | Full write-up |
 | **v34.0** | 2026-09-23 | [Ternary vs MoE on 8 GB: Bonsai 2 27B vs Qwen3.6-35B — Same Score, 3.6× Smaller](docs/releases/v34.0_Ternary-vs-MoE-8GB-Bonsai2-27B-vs-Qwen36-35B.md) | Full write-up |
+| **v35.0** | 2026-09-25 | [Qwen-Image 2.1 on 8 GB: Transparent PNG, 2K in 60 Seconds, and the Green-Noise Scheduler Trap](docs/releases/v35.0_Qwen-Image-2.1-Transparent-PNG-2K-Green-Noise-Trap.md) | Full write-up |
 
 ---
 
