@@ -79,6 +79,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v33.0** | 2026-09-17 | [AuK — One Model Replaces Your Entire Voice Pipeline](docs/releases/v33.0.md) | Full write-up |
 | **v34.0** | 2026-09-23 | [Ternary vs MoE on 8 GB: Bonsai 2 27B vs Qwen3.6-35B — Same Score, 3.6× Smaller](docs/releases/v34.0_Ternary-vs-MoE-8GB-Bonsai2-27B-vs-Qwen36-35B.md) | Full write-up |
 | **v35.0** | 2026-09-25 | [Qwen-Image 2.1 on 8 GB: Transparent PNG, 2K in 60 Seconds, and the Green-Noise Scheduler Trap](docs/releases/v35.0_Qwen-Image-2.1-Transparent-PNG-2K-Green-Noise-Trap.md) | Full write-up |
+| **v36.0** | 2026-09-29 | [MTP Speculative Decoding on 8 GB: 45 Runs, +19% to −26%, Acceptance Rate Is Everything](docs/releases/v36.0_MTP-Speculative-Decoding-8GB-Acceptance-Rate.md) | Full write-up |
 
 ---
 
