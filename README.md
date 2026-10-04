@@ -33,6 +33,7 @@
 || SadTalker | ✅ Running | Talking-head / digital human (8 GB) | — |
 ||| **Local LLMs (llama.cpp)** | ✅ Benchmarkable | Local LLM reasoning + speed benchmark · 5 models, 8 GB sweet-spot chart | [v14.0 → v21.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v21.0) |
 ||| **MiniMax H3 (video+audio)** | ✅ Running | Joint video + stereo audio generation, 1344×768 / 5.9s / 14 min on 8 GB | [v25.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v25.0) |
+||| **H3 X2-Detail-VAE** | ✅ Running | 2× native decode (1664×960, +2s) + first-frame detail enhancement | [v38.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v38.0) |
 
 </div>
 
@@ -81,6 +82,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v35.0** | 2026-09-25 | [Qwen-Image 2.1 on 8 GB: Transparent PNG, 2K in 60 Seconds, and the Green-Noise Scheduler Trap](docs/releases/v35.0_Qwen-Image-2.1-Transparent-PNG-2K-Green-Noise-Trap.md) | Full write-up |
 | **v36.0** | 2026-09-29 | [MTP Speculative Decoding on 8 GB: 45 Runs, +19% to −26%, Acceptance Rate Is Everything](docs/releases/v36.0_MTP-Speculative-Decoding-8GB-Acceptance-Rate.md) | Full write-up |
 | **v37.0** | 2026-09-29 | [Qwen3.8-Flash-Next 177B on an 8 GB Laptop: 72.5 GB of Weights, 6.11 t/s, and No 1-Bit Collapse](docs/releases/v37.0_Qwen3.8-Flash-Next-177B-72.5GB-on-8GB-Laptop.md) | Full write-up |
+| **v38.0** | 2026-10-04 | [MiniMax-H3-X2-Detail-VAE on 8 GB: 2× Frames in +2 Seconds, and the Dark-Image Trap](docs/releases/v38.0_MiniMax-H3-X2-Detail-VAE-2X-Decode-Dark-Image-Trap.md) | Full write-up |
 
 ---
 
