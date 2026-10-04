@@ -34,6 +34,7 @@
 ||| **Local LLMs (llama.cpp)** | ✅ Benchmarkable | Local LLM reasoning + speed benchmark · 5 models, 8 GB sweet-spot chart | [v14.0 → v21.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v21.0) |
 ||| **MiniMax H3 (video+audio)** | ✅ Running | Joint video + stereo audio generation, 1344×768 / 5.9s / 14 min on 8 GB | [v25.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v25.0) |
 ||| **H3 X2-Detail-VAE** | ✅ Running | 2× native decode (1664×960, +2s) + first-frame detail enhancement | [v38.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v38.0) |
+||| **H3 RefMod (character consistency)** | ✅ Running | 9.5 KB identity concept: 80.8% feature retention vs 20% for native R2V reference | [v39.0 ↗](https://github.com/Ultramanmao/ai-pipeline-local/releases/tag/v39.0) |
 
 </div>
 
@@ -83,6 +84,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v36.0** | 2026-09-29 | [MTP Speculative Decoding on 8 GB: 45 Runs, +19% to −26%, Acceptance Rate Is Everything](docs/releases/v36.0_MTP-Speculative-Decoding-8GB-Acceptance-Rate.md) | Full write-up |
 | **v37.0** | 2026-09-29 | [Qwen3.8-Flash-Next 177B on an 8 GB Laptop: 72.5 GB of Weights, 6.11 t/s, and No 1-Bit Collapse](docs/releases/v37.0_Qwen3.8-Flash-Next-177B-72.5GB-on-8GB-Laptop.md) | Full write-up |
 | **v38.0** | 2026-10-04 | [MiniMax-H3-X2-Detail-VAE on 8 GB: 2× Frames in +2 Seconds, and the Dark-Image Trap](docs/releases/v38.0_MiniMax-H3-X2-Detail-VAE-2X-Decode-Dark-Image-Trap.md) | Full write-up |
+| **v39.0** | 2026-10-04 | [RefMod on 8 GB: A 9.5 KB Character Concept Scores 80.8% Where a Full Reference Image Scores 20%](docs/releases/v39.0_RefMod-9.5KB-vs-R2V-Reference-Character-Consistency.md) | Full write-up |
 
 ---
 
