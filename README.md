@@ -87,6 +87,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v39.0** | 2026-10-04 | [RefMod on 8 GB: A 9.5 KB Character Concept Scores 80.8% Where a Full Reference Image Scores 20%](docs/releases/v39.0_RefMod-9.5KB-vs-R2V-Reference-Character-Consistency.md) | Full write-up |
 | **v40.0** | 2026-10-04 | [Qwen3.8-Flash-Next 177B on 8 GB: 128K Context Holds, a 35K-Token Document Answers 3/3, and the 54-Minute First Token](docs/releases/v40.0_Qwen3.8-Flash-Next-128K-Context-54-Minute-First-Token.md) | Full write-up |
 | **v41.0** | 2026-10-04 | [Qwen3.8-Flash-Next 177B Vision on 8 GB: 12/12 OCR With Zero Hallucination — and the Fine Spatial Detail It Actually Misses](docs/releases/v41.0_Qwen3.8-Flash-Next-Vision-12of12-OCR-Spatial-Gap.md) | Full write-up |
+| **v42.0** | 2026-10-05 | [Jev Ultrafast’s Speed Without Its Cloud API — What Transfers to Plain CDP and What Doesn’t](docs/releases/v42.0_Jev-Ultrafast-Patterns-Without-Cloud-API.md) | Full write-up |
 
 ---
 
