@@ -89,6 +89,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v41.0** | 2026-10-04 | [Qwen3.8-Flash-Next 177B Vision on 8 GB: 12/12 OCR With Zero Hallucination — and the Fine Spatial Detail It Actually Misses](docs/releases/v41.0_Qwen3.8-Flash-Next-Vision-12of12-OCR-Spatial-Gap.md) | Full write-up |
 | **v42.0** | 2026-10-05 | [Jev Ultrafast’s Speed Without Its Cloud API — What Transfers to Plain CDP and What Doesn’t](docs/releases/v42.0_Jev-Ultrafast-Patterns-Without-Cloud-API.md) | Full write-up |
 | **v43.0** | 2026-10-05 | [Qwen-Image-2.1 Prompt Enhancer on 8 GB — 11 Minutes per Prompt, and the Transparency Trap](docs/releases/v43.0_Qwen-Image-2.1-PE-I2I-Transparency-Trap.md) | Full write-up |
+| **v44.0** | 2026-10-05 | [AI Talking-Head Videos the Slow, Free Way — One Photo, One Voice Sample, an 8 GB Card, No Video Editor](docs/releases/v44.0_AI-Talking-Head-Videos-Beginner-Field-Guide.md) | Full write-up |
 
 ---
 
