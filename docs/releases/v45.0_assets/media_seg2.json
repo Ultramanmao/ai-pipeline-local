@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "first": "C:/hermes/cache/scratch/transition03/B2_tr03b_autumn_00001_.png",
+  "last": "C:/hermes/cache/scratch/transition03/C2_tr03b_winter_00001_.png",
+  "loras": [{"path": "E:/WSL/ComfyUI/models/loras/wushu_spatial_physics_clean_3000_pruned.safetensors", "strength": 0.3}]
+}
