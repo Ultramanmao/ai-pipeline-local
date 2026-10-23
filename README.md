@@ -91,6 +91,7 @@ Each release is a fully reproducible technical article: complete ComfyUI node ch
 | **v43.0** | 2026-10-05 | [Qwen-Image-2.1 Prompt Enhancer on 8 GB — 11 Minutes per Prompt, and the Transparency Trap](docs/releases/v43.0_Qwen-Image-2.1-PE-I2I-Transparency-Trap.md) | Full write-up |
 | **v44.0** | 2026-10-05 | [AI Talking-Head Videos the Slow, Free Way — One Photo, One Voice Sample, an 8 GB Card, No Video Editor](docs/releases/v44.0_AI-Talking-Head-Videos-Beginner-Field-Guide.md) | Full write-up |
 | **v45.0** | 2026-10-22 | [A Four-Season Video Loop on 8 GB — 4 × 3.75 s at 24 GPU-Min per Segment, and the Green-Leaf-in-Snow Trap](docs/releases/v45.0_Four-Season-Video-Loop-Anchor-Pairs-Physics-Beats.md) | Full write-up |
+| **v46.0** | 2026-10-25 | [gpuq on 8 GB — Serializing Nine Workloads One Job at a Time, and the 53% Write-Loss Race That Broke Serialization](docs/releases/v46.0_gpuq-8GB-Serial-GPU-Task-Queue-Fail-Closed.md) | Full write-up |
 
 ---
 
